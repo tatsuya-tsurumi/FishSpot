@@ -96,8 +96,8 @@ app.use('/spots/:id/reviews', reviewRoutes);
 
 
 
+const port = process.env.PORT || 3000
 
-
-app.listen(3000, () => {
-  console.log('ポート3000でリクエスト待受中');
+app.listen(port, () => {
+  console.log(`ポート${port}でリクエスト待受中`);
 });

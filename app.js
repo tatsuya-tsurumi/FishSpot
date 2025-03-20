@@ -20,11 +20,11 @@ const userRoutes = require('./routes/users');
 const reviewRoutes = require('./routes/reviews');
 const MongoStore = require('connect-mongo');
 // const dbUrl = process.env.DB_URL
-const dbUrl = 'mongodb://localhost:27017/fish-spot'
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 
 // 'mongodb://localhost:27017/fish-spot'
-mongoose.connect(process.env.DB_URL || dbUrl)
+mongoose.connect(dbUrl)
   .then(() => {
     console.log('MongoDBコネクションOK');
   })

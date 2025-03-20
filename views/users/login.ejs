@@ -1,0 +1,29 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container mb-5">
+  <div class="row">
+    <div class="offset-md-3 col-md-6 col-xl-4 offset-xl-4">
+      <div class="card shadow">
+        <img src="https://images.unsplash.com/photo-1541742425281-c1d3fc8aff96?q=80&w=2912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="card-img-top" >
+        <div class="card-body">
+          <h5 class="card-title">ログイン</h5>
+          <form action="/login" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="username" class="form-label">ユーザー名</label>
+              <input type="text" name="username" id="username" class="form-control" autofocus required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">パスワード</label>
+              <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+            <div class="mb-3 text-end d-grid">
+              <button class="btn btn-success ">ログイン</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

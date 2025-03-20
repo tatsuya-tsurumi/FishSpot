@@ -1,0 +1,155 @@
+<h1>詳細画面</h1>
+
+<% layout("layouts/boilerplate") %>
+  <%# 星のCSSを使えるように取り込み処理 %>
+    <%# <link rel="stylesheet" href="/stylesheets/stars.css"> %>
+      <div class="row">
+        <div class="col-6 ">
+          <%# 画像が複数ある場合にbootstrapのCarouselを使い画像スライドできるようにする %>
+            <div id="spotCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <% if (spot.images && spot.images.length> 0) { %>
+                  <% spot.images.forEach((img, i)=> { %>
+                    <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                      <img src="<%= img.url %>" class="d-block w-100" alt="...">
+                    </div>
+                    <% }) %>
+                      <% } else { %>
+                        <div class="carousel-item active">
+                          <img
+                            src="https://res.cloudinary.com/dhlpu00lv/image/upload/v1740789149/YelpCamp/t8y4sq8oumsv2hjn0j29.jpg"
+                            class="d-block w-100" alt="デフォルト画像">
+                        </div>
+                        <% } %>
+              </div>
+              <%# 画像が複数あった場合のみ矢印ボタンが出るようにする %>
+                <% if(spot.images.length> 1) { %>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#spotCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#spotCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                  <% } %>
+            </div>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= spot.title %>
+                </h5>
+                <p class="card-text">
+                  <%= spot.description %>
+                </p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted">
+                  場所:<%= spot.location %>
+                </li>
+                <li class="list-group-item">
+                  作成者:<%= spot.author.username %>
+                </li>
+
+                <li class="list-group-item">狙い目:<%= spot.aim%>
+                </li>
+              </ul>
+              <% if(currentUser && spot.author.equals(currentUser._id)) { %>
+                <div class="card-body">
+                  <a href="/spots/<%= spot._id %>/edit" class="btn btn-info">編集する</a>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#modal">削除</button>
+                </div>
+                <% } %>
+                  <div class="ms-3 mb-3">
+                    <a href="/spots" class="btn btn-secondary">戻る</a>
+                  </div>
+            </div>
+            <!-- Button trigger modal -->
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    削除してよろしいですか？
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+
+                    <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST" class="d-inline">
+                      <button type="submit" class="btn btn-primary">実行</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div class="col-6">
+          <div id='map' class="mb-5"></div>
+          <% if(currentUser) { %>
+            <h2>レビュー</h2>
+            <form action="/spots/<%= spot._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+              <%# 評価を星で選択できるようにする %>
+                <div>
+                  <fieldset class="starability-basic">
+                    <input type="radio" id="first-rate1" name="review[rating]" checked value="1" />
+                    <label for="first-rate1" title="1">評価1</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="2">評価2</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="3">評価3</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="4">評価4</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="5">評価5</label>
+                  </fieldset>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="body">コメント</label>
+                  <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                </div>
+                <div class="text-end">
+                  <button class="btn btn-success">投稿する</button>
+                </div>
+            </form>
+            <% } else { %>
+              <p>ログインをするとレビューを投稿できます</p>
+              <% } %>
+                <%# レビューがある限りレビューを表示する処理 %>
+                  <p class="fw-bold fs-3">レビュー一覧</p>
+                  <% if(spot.reviews.length===0) { %>
+                    レビューはまだありません
+                    <% } %>
+                      <% for(let review of spot.reviews) {%>
+                        <div class="card mb-3">
+                          <div class="card-body">
+                            <h5 class="card-title">
+                              投稿者: <%= review.author.username %>
+                            </h5>
+                            <%# 評価を星で表現できるように指定のclassを設定 %>
+                              <p class="starability-result" data-rating="<%= review.rating %>">評価: <%= review.rating %>
+                              </p>
+                              <p class="card-text">コメント: <%= review.body %>
+                              </p>
+                              <% if(currentUser && review.author.equals(currentUser._id)) { %>
+                                <form action="/spots/<%= spot._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                  method="POST" class="text-end">
+                                  <button class="btn btn-danger btn-sm">削除する</button>
+                                </form>
+                                <% } %>
+                          </div>
+                        </div>
+                        <% } %>
+        </div>
+      </div>
+      <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
+      <script>
+        const mapToken = '<%= process.env.MAPBOX_TOKEN %>'
+        const spot = <%- JSON.stringify(spot) %>
+      </script>
+      <script src="/javascripts/showPageMap.js"></script>

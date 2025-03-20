@@ -1,0 +1,42 @@
+<% layout("layouts/boilerplate") %>
+<div class="row">
+  <h1 class="text-center">編集画面</h1>
+  <div class="offset-md-3 col-md-6">
+    <form action="/spots/<%= spot._id %>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="title" class="form-label">タイトル</label>
+        <input type="text" name="spot[title]" id="title" class="form-control" value="<%= spot.title%>" autofocus required>
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">場所</label>
+        <input type="text" name="spot[location]" id="location" class="form-control" value="<%= spot.location%>" required>
+      </div>
+      <div class="mb-3">
+        <label for="aim" class="form-label">狙い目</label>
+        <input type="text" class="form-control" id="aim" name="spot[aim]" value="<%= spot.aim %>" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">説明</label>
+        <textarea type="text" name="spot[description]" id="description" class="form-control" required><%= spot.description %></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label" >画像の追加</label>
+        <input class="form-control" type="file" id="image" name="image" multiple>
+      </div>
+      <div class="mb-3">
+        <% spot.images.forEach(function(img, i) { %>
+          <img src="<%= img.url %>" class="img-thumbnail" alt="">
+            <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>">
+            <label for="image-<%= i %>">削除する</label>
+        <% }) %>
+      </div>
+      <div class="mb-3 text-end">
+        <button class="btn btn-info">更新する</button>
+      </div>
+    </form>
+    <div class=" mb-3 text-end">
+      <a href="/spots/<%= spot._id %>" class="btn btn-secondary">戻る</a>
+    </div>
+  </div>
+</div>
+

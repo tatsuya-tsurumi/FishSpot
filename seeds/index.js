@@ -1,12 +1,15 @@
+if(process.env.NODE_ENV !== 'process') {
+  require('dotenv').config();
+};
 const mongoose = require("mongoose");
 //seedHelpers.ejsからdescription・placesを取得
 const {descriptors, fishes} = require("./seedsHelpers");
 //cities.ejsからcitiesの情報を取得
 const cities = require("./cities");
 const Spot = require("../models/spot");
+const dbUrl = process.env.DB_URL ;
 
-
-mongoose.connect('mongodb://localhost:27017/fish-spot')
+mongoose.connect(dbUrl)
 .then(() => {
   console.log("MongoDBコネクションOK");
 })
@@ -19,7 +22,6 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 
 //50個のサンプルデータ作成
 const seedDB = async () => {
-  await Spot.deleteMany({});
   for(let i = 0; i < 30; i++) {
     const randomCityIndex = Math.floor(Math.random() * cities.length);
     const spot = new Spot({
@@ -49,6 +51,7 @@ const seedDB = async () => {
     await spot.save();
   }
 };
+
 
 seedDB().then(() => {
   mongoose.connection.close();

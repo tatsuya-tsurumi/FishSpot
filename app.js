@@ -13,6 +13,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const session = require('express-session');
 const flash = require('connect-flash');
+const mongoSanitize = require('express-mongo-sanitize');
+const Joi = require('joi');
+const helmet = require('helmet');
 
 const User = require('./models/user');
 const spotRoutes = require('./routes/spots');
@@ -20,11 +23,11 @@ const userRoutes = require('./routes/users');
 const reviewRoutes = require('./routes/reviews');
 const MongoStore = require('connect-mongo');
 // const dbUrl = process.env.DB_URL
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/fish-spot';
 
 
 // 'mongodb://localhost:27017/fish-spot'
-mongoose.connect(dbUrl)
+mongoose.connect('mongodb://localhost:27017/fish-spot')
   .then(() => {
     console.log('MongoDBコネクションOK');
   })
@@ -48,12 +51,14 @@ mongoose.connect(dbUrl)
   })
 
   const sessionConfig = {
+    name: 'session',
     store,
     secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
+      // secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7
     }
   }
@@ -69,6 +74,43 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+// app.use(mongoSanitize({
+//   replaceWith: '_',
+// }),);
+app.use(helmet());
+
+const scriptSrcUrls = [
+  'https://api.mapbox.com',
+  'https://cdn.jsdelivr.net'
+];
+const styleSrcUrls = [
+  'https://api.mapbox.com',
+  'https://cdn.jsdelivr.net'
+];
+const connectSrcUrls = [
+  'https://api.mapbox.com',
+  'https://*.tiles.mapbox.com',
+  'https://events.mapbox.com'
+];
+const fontSrcUrls = [];
+const imgSrcUrls = [
+  `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`,
+  'https://images.unsplash.com'
+];
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: [],
+    connectSrc: ["'self'", ...connectSrcUrls],
+    scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+    styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+    workerSor: ["'self'", "blob:"],
+    childSrc: ["blob:"],
+    objectSrc: [],
+    imgSrc: ["'self'", 'blob:', 'data', ...imgSrcUrls],
+    fontSrc: ["'self'", ...fontSrcUrls]
+  }
+}));
 
 //passportに対してローカルストラテジーを使うと宣言してUserのauthenticateという方法でやると宣言
 //authenticate()は宣言していないがpassportLocalMongooseのおかげで宣言しなくても使える

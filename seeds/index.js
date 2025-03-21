@@ -1,6 +1,4 @@
-if(process.env.NODE_ENV !== 'process') {
-  require('dotenv').config();
-};
+
 const mongoose = require("mongoose");
 //seedHelpers.ejsからdescription・placesを取得
 const {descriptors, fishes} = require("./seedsHelpers");

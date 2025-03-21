@@ -23,9 +23,10 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 //50個のサンプルデータ作成
 const seedDB = async () => {
   for(let i = 0; i < 30; i++) {
+    await Campground.deleteMany({});
     const randomCityIndex = Math.floor(Math.random() * cities.length);
     const spot = new Spot({
-      author: '67d61bd43749a35a9dd1ed8c',
+      author: '67dc2c1030935d865ead4d08',
       location: `${cities[randomCityIndex].prefecture}${cities[randomCityIndex].city}`,
       title: `${sample(descriptors)}`,
       description: "あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。またそのなかでいっしょになったたくさんのひとたち、ファゼーロとロザーロ、羊飼のミーロや、顔の赤いこどもたち、地主のテーモ、山猫博士のボーガント・デストゥパーゴなど、いまこの暗い巨きな石の建物のなかで考えていると、みんなむかし風のなつかしい青い幻燈のように思われます。では",

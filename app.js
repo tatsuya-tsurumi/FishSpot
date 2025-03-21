@@ -13,8 +13,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const session = require('express-session');
 const flash = require('connect-flash');
-const mongoSanitize = require('express-mongo-sanitize');
-const Joi = require('joi');
 const helmet = require('helmet');
 
 const User = require('./models/user');
@@ -74,43 +72,47 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(mongoSanitize({
-//   replaceWith: '_',
-// }),);
-app.use(helmet());
-
-const scriptSrcUrls = [
-  'https://api.mapbox.com',
-  'https://cdn.jsdelivr.net'
-];
-const styleSrcUrls = [
-  'https://api.mapbox.com',
-  'https://cdn.jsdelivr.net'
-];
-const connectSrcUrls = [
-  'https://api.mapbox.com',
-  'https://*.tiles.mapbox.com',
-  'https://events.mapbox.com'
-];
-const fontSrcUrls = [];
-const imgSrcUrls = [
-  `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`,
-  'https://images.unsplash.com'
-];
-
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: [],
-    connectSrc: ["'self'", ...connectSrcUrls],
-    scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
-    styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-    workerSor: ["'self'", "blob:"],
-    childSrc: ["blob:"],
-    objectSrc: [],
-    imgSrc: ["'self'", 'blob:', 'data', ...imgSrcUrls],
-    fontSrc: ["'self'", ...fontSrcUrls]
-  }
+app.use(helmet({
+  contentSecurityPolicy: false,
 }));
+
+// const scriptSrcUrls = [
+//   'https://api.mapbox.com',
+//   'https://cdn.jsdelivr.net',
+//   'https://unpkg.com'
+// ];
+// const styleSrcUrls = [
+//   'https://api.mapbox.com',
+//   'https://cdn.jsdelivr.net'
+// ];
+// const connectSrcUrls = [
+//   'https://api.mapbox.com',
+//   'https://api.tiles.mapbox.com', 
+//   'https://*.tiles.mapbox.com',
+//   'https://events.mapbox.com',
+//   'https://mapbox.com' 
+// ];
+// const fontSrcUrls = [];
+// const imgSrcUrls = [
+//   `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`,
+//   'https://images.unsplash.com',
+//   'https://*.mapbox.com'
+// ];
+
+// app.use(helmet.contentSecurityPolicy({
+//   directives: {
+//     defaultSrc: [],
+//     connectSrc: ["'self'", ...connectSrcUrls],
+//     scriptSrc: ["'unsafe-inline'", "'self'", "'unsafe-eval'", ...scriptSrcUrls],
+//     styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+//     workerSrc: ["'self'", "blob:"],
+//     childSrc: ["blob:"],
+//     objectSrc: [],
+//     frameAncestors: ["'self'"],
+//     imgSrc: ["'self'", 'blob:', 'data', ...imgSrcUrls],
+//     fontSrc: ["'self'", ...fontSrcUrls]
+//   }
+// }));
 
 //passportに対してローカルストラテジーを使うと宣言してUserのauthenticateという方法でやると宣言
 //authenticate()は宣言していないがpassportLocalMongooseのおかげで宣言しなくても使える

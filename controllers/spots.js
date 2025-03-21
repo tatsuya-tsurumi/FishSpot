@@ -76,7 +76,6 @@ module.exports.updateSpot = async (req, res) => {
     }
     await spot.updateOne({ $pull: {images: {filename: {$in: req.body.deleteImages}}}});
   }
-  console.log(req.body.deleteImages);
   await spot.save();
   req.flash('success', '更新が完了しました');
   res.redirect(`/spots/${spot._id}`);

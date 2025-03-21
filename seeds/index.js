@@ -23,7 +23,7 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 //50個のサンプルデータ作成
 const seedDB = async () => {
   for(let i = 0; i < 30; i++) {
-    await Campground.deleteMany({});
+    await Spot.deleteMany({});
     const randomCityIndex = Math.floor(Math.random() * cities.length);
     const spot = new Spot({
       author: '67dc2c1030935d865ead4d08',

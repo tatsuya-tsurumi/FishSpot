@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 //seedHelpers.ejsからdescription・placesを取得
 const {descriptors, fishes} = require("./seedsHelpers");
@@ -18,9 +17,9 @@ mongoose.connect(dbUrl)
 
 const sample = array => array[Math.floor(Math.random() * array.length)];
 
-await Spot.deleteMany({});
 //30個のサンプルデータ作成
 const seedDB = async () => {
+  await Spot.deleteMany({});
   for(let i = 0; i < 30; i++) {
     const randomCityIndex = Math.floor(Math.random() * cities.length);
     const spot = new Spot({

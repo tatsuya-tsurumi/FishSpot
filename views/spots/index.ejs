@@ -1,18 +1,24 @@
 <% layout("layouts/boilerplate") %>
 
+<div class="container mb-4 index-img position-relative">
+  <div class="index-catch-copy position-absolute top-50 start-50 translate-middle fs-2 " >
+    おすすめスポットを登録しよう！
+  </div>
+</div>
+
 <h1 class="text-center mb-3">スポット情報</h1>
 <% for(let i = 0; i < spots.length && i < 5; i++) { %>
 <div class="card mb-4 container mx-auto" >
   <div class="row" id="index-row">
     <div class="col-md-5">
       <% if (spots[i].images && spots[i].images.length > 0) { %>
-        <img src="<%= spots[i].images[0].url %>" alt="..." class="img-fluid">
+        <img src="<%= spots[i].images[0].url %>" alt="..." class="img-fluid img-list">
       <% } else { %>
         <img src="https://res.cloudinary.com/dhlpu00lv/image/upload/v1740789149/YelpCamp/t8y4sq8oumsv2hjn0j29.jpg" alt="デフォルト画像" class="img-fluid">
       <% } %>
     </div>
-    <div class="col-md-7 index-card">
-      <div class="card-body d-flex flex-column justify-content-around index-card-body">
+    <div class="col-md-7 ">
+      <div class="card-body d-flex flex-column justify-content-around ">
         <h5 class="card-title"><%= spots[i].title %></h5>
         <p class="card-text"><%= spots[i].location %></p>
         <p class="card-text"><%= spots[i].description %></p>

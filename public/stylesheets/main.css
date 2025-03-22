@@ -7,21 +7,26 @@ img.img-thumbnail {
   height: 150px;
 }
 
-
-.col-md-5 {
-  height: 100%;
-  margin: auto;
+.img-box {
+  
 }
 
-.img-fluid {
-  height: 100%;
+.img-list {
+  height: 80%;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
-.index-card {
-  height: 386px;
+
+.index-img {
+  height: 600px;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://images.unsplash.com/photo-1493787039806-2edcbe808750?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: cover;
+    background-position: center;
 }
 
-.index-card-body {
-  height: 386px;
-
+.index-catch-copy {
+  color: #fff;
 }

@@ -3,6 +3,17 @@
 }
 
 img.img-thumbnail {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
+
+
+.col-md-5 {
+  height: 100%;
+  margin: auto;
+}
+
+.img-fluid {
+  height: 100%;
+}
+

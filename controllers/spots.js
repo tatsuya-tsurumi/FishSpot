@@ -92,3 +92,8 @@ module.exports.deleteSpot = async (req, res) => {
   res.redirect('/spots');
 }
 
+module.exports.showList = async (req, res) => {
+  const spots = await Spot.find({});
+  res.render('spots/list', { spots });
+};
+

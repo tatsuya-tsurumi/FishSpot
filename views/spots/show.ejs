@@ -1,10 +1,10 @@
-<h1>詳細画面</h1>
+<h1 class="text-center mb-5">詳細画面</h1>
 
 <% layout("layouts/boilerplate") %>
   <%# 星のCSSを使えるように取り込み処理 %>
     <%# <link rel="stylesheet" href="/stylesheets/stars.css"> %>
       <div class="row">
-        <div class="col-6 ">
+        <div class="col-md-6 ">
           <%# 画像が複数ある場合にbootstrapのCarouselを使い画像スライドできるようにする %>
             <div id="spotCarousel" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
@@ -64,7 +64,7 @@
                 </div>
                 <% } %>
                   <div class="ms-3 mb-3 mt-3">
-                    <a href="/spots" class="btn btn-secondary">戻る</a>
+                    <a href="/spots/list" class="btn btn-secondary">一覧へ戻る</a>
                   </div>
             </div>
             <!-- Button trigger modal -->
@@ -89,7 +89,7 @@
             </div>
 
         </div>
-        <div class="col-6">
+        <div class="col-md-6 mb-3">
           <div id='map' class="mb-5"></div>
           <% if(currentUser) { %>
             <h2>レビュー</h2>

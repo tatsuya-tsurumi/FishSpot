@@ -23,15 +23,17 @@
         <label for="image" class="form-label" >画像の追加</label>
         <input class="form-control" type="file" id="image" name="image" multiple>
       </div>
-      <div class="mb-3">
+      <div class=" ms-auto delete-img">
         <% spot.images.forEach(function(img, i) { %>
           <img src="<%= img.url %>" class="img-thumbnail" alt="">
             <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>">
-            <label for="image-<%= i %>">削除する</label>
+            <div class="form-check-inline">
+              <label for="image-<%= i %>">削除する</label>
+            </div>
         <% }) %>
       </div>
       <div class="mb-3 text-end">
-        <button class="btn btn-info">更新する</button>
+        <button class="btn btn-info" id="loadingBtn" onclick="showSpinner()">更新する</button>
       </div>
     </form>
     <div class=" mb-3 text-end">
@@ -40,3 +42,9 @@
   </div>
 </div>
 
+<script>
+  function showSpinner() {
+    const btn = document.getElementById("loadingBtn");
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> 更新中...';
+    btn.disabled = true;
+</script>

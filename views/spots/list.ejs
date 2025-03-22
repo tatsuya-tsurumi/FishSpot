@@ -1,0 +1,32 @@
+<% layout("layouts/boilerplate") %>
+<div id="cluster-map" class="container"></div>
+<h1 class="text-center mt-3">スポット一覧</h1>
+<% for(let spot of spots) { %>
+<div class="card mb-4 container mx-auto" >
+  <div class="row" id="index-row">
+    <div class="col-md-5">
+      <% if (spot.images && spot.images.length > 0) { %>
+        <img src="<%= spot.images[0].url %>" alt="..." class="img-fluid">
+      <% } else { %>
+        <img src="https://res.cloudinary.com/dhlpu00lv/image/upload/v1740789149/YelpCamp/t8y4sq8oumsv2hjn0j29.jpg" alt="デフォルト画像" class="img-fluid">
+      <% } %>
+    </div>
+    <div class="col-md-7">
+      <div class="card-body">
+        <h5 class="card-title"><%= spot.title %></h5>
+        <p class="card-text"><%= spot.location %></p>
+        <p class="card-text"><%= spot.description %></p>
+        <a href="/spots/<%= spot._id %>" class="btn btn-info">詳細を見る</a>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
+<script>
+  const mapToken = '<%= process.env.MAPBOX_TOKEN %>';
+  const spots = <%- JSON.stringify(spots) %>
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>

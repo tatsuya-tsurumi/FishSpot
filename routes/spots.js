@@ -13,6 +13,7 @@ router.route('/')
 
 //ここに書かないと下に記載のある「/:id」が先に認識されてしまい「/new」の前にエラーになる
 router.get('/new', isLoggedIn, spots.renderNewForm);
+router.get('/list', spots.showList);
   
 router.route('/:id')
   .get(spots.showSpot)
@@ -20,6 +21,8 @@ router.route('/:id')
   .delete(isLoggedIn, spots.deleteSpot);
 
 router.get('/:id/edit', isLoggedIn, isAuthor, spots.renderEditForm);
+
+
 
 
 module.exports = router;

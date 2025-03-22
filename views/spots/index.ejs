@@ -1,27 +1,37 @@
 <% layout("layouts/boilerplate") %>
-<div id="cluster-map" class="container"></div>
-<h1 class="text-center mt-3">スポット一覧</h1>
-<% for(let spot of spots) { %>
-<div class="card mb-4 w-75 mx-auto" >
-  <div class="row ">
-    <div class="col-md-4">
-      <% if (spot.images && spot.images.length > 0) { %>
-        <img src="<%= spot.images[0].url %>" alt="..." class="img-fluid">
+
+<h1 class="text-center mb-3">スポット情報</h1>
+<% for(let i = 0; i < spots.length && i < 10; i++) { %>
+<div class="card mb-4 container mx-auto" >
+  <div class="row" id="index-row">
+    <div class="col-md-5">
+      <% if (spots[i].images && spots[i].images.length > 0) { %>
+        <img src="<%= spots[i].images[0].url %>" alt="..." class="img-fluid">
       <% } else { %>
         <img src="https://res.cloudinary.com/dhlpu00lv/image/upload/v1740789149/YelpCamp/t8y4sq8oumsv2hjn0j29.jpg" alt="デフォルト画像" class="img-fluid">
       <% } %>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7">
       <div class="card-body">
-        <h5 class="card-title"><%= spot.title %></h5>
-        <p class="card-text"><%= spot.location %></p>
-        <p class="card-text"><%= spot.description %></p>
-        <a href="/spots/<%= spot._id %>" class="btn btn-info">詳細を見る</a>
+        <h5 class="card-title"><%= spots[i].title %></h5>
+        <p class="card-text"><%= spots[i].location %></p>
+        <p class="card-text"><%= spots[i].description %></p>
+        <a href="/spots/<%= spots[i]._id %>" class="btn btn-info">詳細を見る</a>
       </div>
     </div>
   </div>
 </div>
 <% } %>
+<div class="d-grid gap-2 col-4 mx-auto mb-3">
+  <a href="/spots/list" class="w-100 btn btn-success rounded-pill">
+    もっと見る
+  </a>
+</div>
+
+<div class="my-5">
+  <p class="text-center">地図から選択する</p>
+  <div id="cluster-map" class="container mt-3"></div>
+</div>
 
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
 <script>
@@ -30,3 +40,4 @@
 </script>
 
 <script src="/javascripts/clusterMap.js"></script>
+

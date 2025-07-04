@@ -18,3 +18,4 @@ new mapboxgl.Marker({rotation: 45 })
 
         const language = new MapboxLanguage();
         map.addControl(language);
+        

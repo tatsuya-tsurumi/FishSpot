@@ -6,6 +6,10 @@ JavaScript（Node.js / Express）で作成したWebアプリです。
 ## デモ
 https://blooming-island-48446-7dae472217b3.herokuapp.com/
 
+## スクリーンショット
+
+![FishSpot](docs/screenshot.png)
+
 ## 使用技術
 - JavaScript
 - Node.js

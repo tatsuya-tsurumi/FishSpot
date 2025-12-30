@@ -14,7 +14,6 @@ https://blooming-island-48446-7dae472217b3.herokuapp.com/
 - JavaScript
 - Node.js
 - Express
-- EJS
 - Heroku
 
 ## 機能
